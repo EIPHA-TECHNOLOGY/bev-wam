@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f9fc">
+  <title>BEV-WAM · A Latent is a World</title>
+  <meta name="description" content="BEV-WAM unifies world prediction and driving planning in a bird's-eye-view spatiotemporal latent representation. Explore the architecture, geometry controls, and driving demonstrations.">
+  <meta property="og:title" content="BEV-WAM — A Latent is a World">
+  <meta property="og:description" content="A unified BEV spatiotemporal representation for world prediction and driving planning.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://eipha-technology.github.io/bev-wam/">
+  <meta property="og:image" content="https://eipha-technology.github.io/bev-wam/assets/social.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#overview">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="#" aria-label="BEV-WAM home"><span class="brand-mark" aria-hidden="true">▦</span>BEV-WAM<span class="brand-dot">.</span></a>
+  <nav aria-label="Main navigation"><a href="#method">Method</a><a href="#geometry">Geometry</a><a href="#demos">Demos</a><a href="#results">Results</a></nav>
+  <a class="repo-link" href="https://github.com/EIPHA-TECHNOLOGY/bev-wam" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+</header>
+<main>
+<section class="hero wrap" id="overview">
+  <div class="hero-copy">
+    <p class="eyebrow"><span></span> WORLD MODEL × AUTONOMOUS DRIVING</p>
+    <h1>A Latent<br>is a <em>World.</em></h1>
+    <p class="project-title">BEV-WAM: A Bird’s-Eye-View<br>World-Action Model</p>
+    <p class="hero-description">One spatial world. Multiple observations.<br>A shared BEV latent connects world prediction<br class="desktop"> and driving planning across time.</p>
+    <div class="hero-actions"><a class="button primary" href="#demos">Explore demonstrations <span>↘</span></a><a class="button text-button" href="#method">Inside the model <span>↓</span></a></div>
+    <p class="byline">EIPHA TECHNOLOGY <span>/</span> PROJECT OVERVIEW · NOV 2026</p>
+  </div>
+  <div class="hero-art">
+    <div class="art-top"><span class="mono">UNIFIED SPATIOTEMPORAL LATENT</span><span class="live-dot" aria-hidden="true"></span></div>
+    <svg class="world-visual" viewBox="0 0 570 440" role="img" aria-labelledby="world-title world-desc">
+      <title id="world-title">A BEV world evolving over time</title><desc id="world-desc">Overlapping bird's-eye-view grids share a trajectory. Camera observations and driving actions branch from the shared latent. This is a conceptual illustration.</desc>
+      <defs><linearGradient id="plane-fill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d8eeef"/><stop offset="1" stop-color="#f4f9fc"/></linearGradient><marker id="arrow-teal" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="none" stroke="#167c82"/></marker><filter id="plane-shadow"><feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#20406d" flood-opacity=".08"/></filter></defs>
+      <g id="world-planes"></g>
+      <path class="world-path" d="M74 321C143 290 195 306 253 265S361 211 458 209" fill="none" stroke="#d89b39" stroke-width="3" stroke-dasharray="7 7"/>
+      <g id="world-ego" transform="translate(255 266) rotate(45)"><path d="M0 -17L10 12L0 7L-10 12Z" fill="#133a60" stroke="white" stroke-width="2"/><circle r="28" fill="none" stroke="#1c8c90" stroke-opacity=".35"/></g>
+      <g class="art-annotation"><path d="M156 229L112 175H48"/><text x="48" y="158">SPATIAL STRUCTURE</text><path d="M372 264L424 309H522"/><text x="409" y="331">ACTION TRAJECTORY</text></g>
+      <text x="150" y="370" class="time-label">t − 1</text><text x="267" y="338" class="time-label active">t</text><text x="407" y="280" class="time-label">t + 1</text>
+      <g class="observation"><rect x="367" y="37" width="145" height="81" rx="6"/><path d="M380 100L419 70L446 91L466 62L500 99"/><path d="M440 119V148L403 175" stroke-dasharray="4 5"/><text x="378" y="25">MULTI-VIEW OBSERVATIONS</text><path d="M421 107L441 76L461 107" stroke="#d69a3b"/><path d="M441 76V107" stroke-dasharray="3 4"/></g>
+    </svg>
+    <div class="art-bottom"><span><i class="legend-dot teal"></i> BEV world state</span><span><i class="legend-dot gold"></i> Future actions</span><span class="mono">CONCEPTUAL VIEW</span></div>
+  </div>
+</section>
+<div class="thesis-band"><div class="wrap"><span class="section-index">THE IDEA</span><p>Predict the next <strong>BEV latent.</strong><br class="mobile-only"> Decode what a camera would see. Plan how to move.</p></div></div>
+
+<section class="wrap section" id="method">
+  <div class="section-heading"><div><p class="eyebrow">01 / REPRESENTATION</p><h2>One world, shared across<br>space, time, and action.</h2></div><p class="section-intro">The world evolves in a unified BEV latent. Images are geometry-conditioned observations of that world, while the action expert learns to plan alongside its evolution.</p></div>
+  <figure class="architecture">
+    <div class="arch-input"><div class="camera-stack" aria-hidden="true"><i></i><i></i><i></i></div><strong>Multi-view history</strong><span>Images · calibration · ego poses</span></div>
+    <span class="flow-arrow" aria-hidden="true">→</span>
+    <div class="arch-encoder"><span class="module-tag">PERCEPTION</span><strong>BEV encoder</strong><span>Geometry-grounded fusion</span></div>
+    <span class="flow-arrow" aria-hidden="true">→</span>
+    <div class="arch-core"><span class="module-tag">WORLD DYNAMICS · 1B</span><div class="latent-row"><span class="mini-bev">z<sub>t</sub></span><b>→</b><span class="mini-bev future">z<sub>t+1</sub></span><b>→</b><span class="mini-bev future">z<sub>t+2</sub></span></div><strong>Predict in BEV latent space</strong><span>Spatial attention · causal temporal attention</span></div>
+    <div class="arch-branches"><div class="branch observation-branch"><span class="branch-arrow" aria-hidden="true">↗</span><span class="module-tag">OBSERVATION</span><strong>Geometry-conditioned decoder</strong><span>Multi-view video · new viewpoints</span></div><div class="branch action-branch"><span class="branch-arrow" aria-hidden="true">↘</span><span class="module-tag">ACTION EXPERT · 66M</span><strong>Joint driving planning</strong><span>Cross-attention · multimodal trajectories</span></div></div>
+    <figcaption><span>FIG. 01</span> Simplified architecture. World dynamics and action planning share the BEV representation; camera parameters control observation decoding.</figcaption>
+  </figure>
+  <div class="method-notes"><article><span class="note-number">01</span><h3>Learn the spatial world</h3><p>Multi-view reconstruction provides self-supervision for a common BEV space.</p></article><article><span class="note-number">02</span><h3>Roll the world forward</h3><p>Model future BEV states with spatial and causal temporal attention, supported by a KV cache.</p></article><article><span class="note-number">03</span><h3>Learn to act in it</h3><p>Train world dynamics and the action expert together to connect future context with driving trajectories.</p></article></div>
+</section>
+
+<section class="geometry-section" id="geometry"><div class="wrap section">
+  <div class="section-heading"><div><p class="eyebrow">02 / PHYSICAL GEOMETRY</p><h2>Change the observation.<br>Keep the world.</h2></div><p class="section-intro">Camera calibration and ego poses have physical meaning. A shared BEV representation can be decoded with different geometric parameters.</p></div>
+  <div class="geometry-layout"><div class="geometry-copy"><span class="small-label">01 — ROTATE THE CAMERA</span><h3>Look from a new viewpoint.</h3><p>Hold the BEV latent fixed and rotate the camera extrinsics at decoding time to generate a new view.</p><div class="geometry-control"><label for="camera-angle">Explore the geometry <output id="angle-output" for="camera-angle">0°</output></label><input id="camera-angle" type="range" min="-55" max="55" value="0" step="1"><p class="tiny">Schematic interaction · not live model inference</p></div><svg class="camera-diagram" viewBox="0 0 380 180" role="img" aria-label="Rotatable camera field of view on a fixed BEV grid"><defs><pattern id="grid" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M22 0H0V22" fill="none" stroke="#bbd8dc" stroke-width=".7"/></pattern></defs><rect x="35" y="12" width="308" height="150" fill="url(#grid)"/><g id="camera-fov" transform="translate(190 126)"><path d="M0 0L-74 -95Q0 -128 74 -95Z" fill="#29979e" fill-opacity=".17" stroke="#21868d" stroke-opacity=".5"/><path d="M0 0V-110" stroke="#167c82" stroke-dasharray="4 4"/></g><path d="M190 107L200 138L190 132L180 138Z" fill="#193c63"/><text x="45" y="175">FIXED BEV WORLD</text><text x="247" y="175">VARIABLE EXTRINSICS</text></svg></div>
+  <figure class="video-figure"><div class="video-frame"><video controls autoplay muted loop playsinline preload="metadata" poster="assets/viewpoint.jpg" aria-label="Camera extrinsic rotation demonstration"><source src="assets/viewpoint.mp4" type="video/mp4"></video></div><figcaption><span>DEMO 01</span> Camera rotation on nuPlan observations. Original qualitative model output.</figcaption></figure></div>
+  <div class="pose-demo"><div class="pose-heading"><div><span class="small-label">02 — TRANSLATE THE EGO POSE</span><h3>A different path through the same world.</h3></div><p>Shift the historical ego poses at decoding time to synthesize observations along a translated trajectory. The demo illustrates local spatial and temporal consistency.</p></div><figure class="video-figure"><div class="video-frame"><video controls autoplay muted loop playsinline preload="metadata" poster="assets/ego-pose.jpg" aria-label="Ego trajectory translation demonstration"><source src="assets/ego-pose.mp4" type="video/mp4"></video></div><figcaption><span>DEMO 02</span> Lateral trajectory translation. View-dependent details can change or disappear; this is a qualitative demonstration, not a physical-validity guarantee.</figcaption></figure></div>
+</div></section>
+
+<section class="wrap section" id="demos">
+  <div class="section-heading"><div><p class="eyebrow">03 / WORLD PREDICTION + PLANNING</p><h2>Imagine what comes next.<br>Decide where to go.</h2></div><p class="section-intro">The same model predicts future BEV states and driving trajectories across datasets. Each dataset’s camera configuration decodes the shared future into its own observations.</p></div>
+  <div class="dataset-tabs" role="tablist" aria-label="Prediction dataset"><button id="tab-nuplan" role="tab" aria-selected="true" aria-controls="panel-nuplan" tabindex="0" data-tab="nuplan">nuPlan <span>WORLD + ACTION</span></button><button id="tab-nureasoning" role="tab" aria-selected="false" aria-controls="panel-nureasoning" tabindex="-1" data-tab="nureasoning">nuReasoning <span>WORLD + ACTION</span></button></div>
+  <div id="panel-nuplan" role="tabpanel" aria-labelledby="tab-nuplan" class="tab-panel"><figure class="video-figure"><div class="video-frame dark"><video controls autoplay muted loop playsinline preload="metadata" poster="assets/prediction-nuplan.jpg" aria-label="Future multi-view prediction and planning on nuPlan"><source src="assets/prediction-nuplan.mp4" type="video/mp4"></video></div><figcaption><span>DEMO 03 / nuPlan</span> Joint future multi-view prediction and driving planning.</figcaption></figure></div>
+  <div id="panel-nureasoning" role="tabpanel" aria-labelledby="tab-nureasoning" class="tab-panel" hidden><figure class="video-figure"><div class="video-frame dark"><video controls muted loop playsinline preload="none" poster="assets/prediction-nureasoning.jpg" aria-label="Future multi-view prediction and planning on nuReasoning"><source src="assets/prediction-nureasoning.mp4" type="video/mp4"></video></div><figcaption><span>DEMO 04 / nuReasoning</span> The shared model decoded with a different dataset’s camera configuration.</figcaption></figure></div>
+  <div class="planning-pair"><div><p class="small-label">FUTURE CONTEXT → ACTION CHOICES</p><h3>Multiple plausible futures.<br>Multiple possible trajectories.</h3><p>World dynamics provide future context to the action expert. Trajectory multimodality reflects the complexity of the driving scene.</p></div><figure class="video-figure"><div class="video-frame"><video controls muted loop playsinline preload="metadata" poster="assets/multimodal.jpg" aria-label="Multimodal driving trajectory demonstration"><source src="assets/multimodal.mp4" type="video/mp4"></video></div><figcaption><span>DEMO 05</span> Multimodal trajectory planning. No trajectory anchors are used in the reported NAVSIM v2 configuration.</figcaption></figure></div>
+  <figure class="video-figure pav-demo"><div class="video-frame"><video controls muted loop playsinline preload="metadata" poster="assets/pav-planning.jpg" aria-label="World prediction and trajectory planning on Physical AI autonomous vehicles"><source src="assets/pav-planning.mp4" type="video/mp4"></video></div><figcaption><span>DEMO 06 / PAV</span> World prediction and driving planning on a further camera configuration.</figcaption></figure>
+</section>
+
+<section class="transfer-section"><div class="wrap section"><div class="section-heading"><div><p class="eyebrow">04 / CROSS-CONFIGURATION TRANSFER</p><h2>A shared world beyond<br>a single camera rig.</h2></div><p class="section-intro">Future BEV states can be decoded using a different vehicle’s camera configuration. This separates the world representation from a particular set of camera observations.</p></div><div class="transfer-demos"><figure class="video-figure"><h3>nuReasoning <span>→</span> PAV cameras</h3><div class="video-frame"><video controls muted loop playsinline preload="metadata" poster="assets/transfer-reasoning.jpg" aria-label="nuReasoning world decoded with PAV cameras"><source src="assets/transfer-reasoning.mp4" type="video/mp4"></video></div><figcaption><span>DEMO 07</span> Reuse the predicted world with a different camera configuration.</figcaption></figure><figure class="video-figure"><h3>nuPlan <span>→</span> PAV cameras</h3><div class="video-frame"><video controls muted loop playsinline preload="metadata" poster="assets/transfer-nuplan.jpg" aria-label="nuPlan world decoded with PAV cameras"><source src="assets/transfer-nuplan.mp4" type="video/mp4"></video></div><figcaption><span>DEMO 08</span> Geometry-conditioned decoding across sensor setups.</figcaption></figure></div></div></section>
+
+<section class="wrap section" id="results"><div class="section-heading"><div><p class="eyebrow">05 / TRAINING & EVALUATION</p><h2>Diverse observations.<br>A common representation.</h2></div><p class="section-intro">Multi-vehicle, multi-camera data contribute to one BEV space. The presentation describes approximately 200,000 clips and a training path from pretraining to driving adaptation.</p></div>
+  <div class="data-sources"><a href="https://huggingface.co/datasets/nvidia/PhysicalAI-Autonomous-Vehicles" target="_blank" rel="noopener"><img src="assets/nvidia.png" alt="NVIDIA" loading="lazy"><strong>Physical AI AV</strong><span>7 cameras · diverse rigs</span><span class="source-link">Dataset ↗</span></a><a href="https://www.nuscenes.org/nuplan" target="_blank" rel="noopener"><img src="assets/motional.png" alt="Motional" loading="lazy"><strong>nuPlan</strong><span>8 cameras · driving planning</span><span class="source-link">Dataset ↗</span></a><a href="https://nureasoning.github.io/" target="_blank" rel="noopener"><div class="joint-logo"><img src="assets/motional.png" alt="Motional" loading="lazy"><img src="assets/ucla.png" alt="UCLA" loading="lazy"></div><strong>nuReasoning</strong><span>8 cameras · driving reasoning</span><span class="source-link">Dataset ↗</span></a></div>
+  <div class="training-flow"><span>Multi-view pretraining</span><b aria-hidden="true">→</b><span>Supervised driving adaptation</span><b aria-hidden="true">→</b><span>Reinforcement learning</span></div><p class="tiny training-note">Training path outlined in the presentation; stage-specific gains are not reported here.</p>
+  <div class="results-layout"><div><h3>Planning in NAVSIM</h3><p>Reported results from the BEV-WAM presentation.<br>Higher scores indicate better performance.</p><p class="tiny">These values are not an independently verified leaderboard ranking. Protocols differ between NAVSIM versions; the two metrics are not directly comparable.</p></div><div class="score"><span>NAVSIM v1</span><strong>87.2<small> / 100</small></strong><p>PDMS</p><span class="score-detail">Full 8-camera input</span></div><div class="score"><span>NAVSIM v2</span><strong>87.9<small> / 100</small></strong><p>EPDMS</p><span class="score-detail">Anchor-free multimodal planning</span></div></div>
+</section>
+<section class="closing"><div class="wrap"><p class="eyebrow">BEV-WAM</p><h2>World evolution.<br>Driving decisions.<br><em>One latent space.</em></h2><a class="button primary" href="https://github.com/EIPHA-TECHNOLOGY/bev-wam" target="_blank" rel="noopener">View the project on GitHub <span>↗</span></a></div></section>
+</main>
+<footer class="wrap"><a class="brand" href="#">BEV-WAM<span class="brand-dot">.</span></a><p>EIPHA TECHNOLOGY · November 2026<br>Based on the BEV-WAM project presentation. Demonstrations are qualitative.</p><a href="https://github.com/EIPHA-TECHNOLOGY/bev-wam">Project repository ↗</a></footer>
+</body>
+</html>
